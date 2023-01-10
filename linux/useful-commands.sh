@@ -138,23 +138,5 @@ sudo yum install "name"
 python -m http.server
 
 #-------------editing file-----------------
-docker cp script jenkins:/tmp/script.sh
-
 rm -fr {folderName}
 
-
-
-
-
-spring.datasource.url=jdbc:postgresql://planetarium.cy6kcah5hexg.us-east-1.rds.amazonaws.com:5432/planetarium
-spring.datasource.username=postgres
-spring.datasource.password=09032022nycHaLi
-
-# this tells the actuator module what metric endpoints we want access too
-management.endpoints.web.exposure.include=health,info,prometheus
-management.metrics.distribution.percentiles-histogram.http.server.request: true
-management.metrics.distribution.percentiles.http.server.requests: 0.5, 0.9, 0.95, 0.99, 0.999
-
-export PGHOST=jdbc:postgresql://planetarium.cy6kcah5hexg.us-east-1.rds.amazonaws.com:5432/planetarium
-export PGUSERNAME=postgres
-export PGPASSWORD=09032022nycHaLi

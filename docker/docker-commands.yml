@@ -49,4 +49,5 @@ docker network
 docker system prune #remove all data. containers and images.
 
 docker cp script jenkins:/tmp/script.sh #copy a local file to a container
+
     
