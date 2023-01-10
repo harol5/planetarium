@@ -1,0 +1,57 @@
+#You can have multiple components inside a file;
+#Deployment and Service components usually go together because deployments need services.
+#We will use Deployment component in this case because we're only creating 1 DB,
+#but if you want to create multiple replicas of a DB, use StatefulSet component.
+apiVersion: apps/v1
+kind: Deployment  # a component that is use as a blueprint for pods.
+metadata:
+  name: webapp-deployment  #name of the component .
+  labels:  #you can identify different components using labels. (key:value pairs). Optional.
+    app: webapp
+spec:  #content of this component.
+  replicas: 1 #how many pods you want to create.
+  selector:
+    matchLabels:  #this will match with pods created in this deployment.
+      app: webapp
+  template:  #config of the pods.
+    metadata:
+      labels:  #this label will identify all replicas(pods). (key:value pairs). Require.
+        app: webapp
+    spec:
+      containers:
+        - name: webapp  #name of container.
+          image: nanajanashia/k8s-demo-app:v1.0  #image we want to use.
+          ports:
+            - containerPort: 3000
+          env:  #sets environment variables.
+            - name: USER_NAME  #name of variable.
+              valueFrom:  #gets values from secret.
+                secretKeyRef:
+                  name: mongo-secret  #name of secret component where the value is.
+                  key: mongo-user  #key on secret component that reference the encoded value.
+            - name: USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: mongo-url
+--- #this separates components in a file.
+apiVersion: v1
+kind: Service  #this component will forward requests to the appropriated pods.
+metadata:
+  name: webapp-service
+spec:
+  type: NodePort #this makes this app accessible on the browser. default: ClusterIp. Now is an external Service component.
+  selector:
+    app.kubernetes.io/name: webapp  #Label of the pods this service will be connected to.
+  ports:
+    - protocol: TCP
+      port: 3000  #port of the service component. use inside the cluster. can be different but usually get same port as targetPort.
+      targetPort: 3000 #port of the containers.
+      nodePort: 30100 #this will open a port in kubernetes node. this will make the app accessible,
+      #with the node ip address and port, we will be able to access this service, then the service will access the pods.
+      #Can not be random (30000 - 32767).

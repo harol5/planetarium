@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim #not an instance of a storage. this will be attached to a pod, then k8s will find the storage.
+metadata:
+  name: logback-persistent-volume-claim
+spec:
+  accessModes: #Type of storage.
+    - ReadWriteOnce #can be used by a single node, ReadOnlyMany: multiple nodes can read from this, ReadWriteMany: read and write by many
+  resources:
+    requests:
+      storage: 2Gi #size allocated in disk.

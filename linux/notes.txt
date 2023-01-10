@@ -1,0 +1,23 @@
+USERS:
+users created are listed on etc/passwd file
+they'll have user name, password, id, group id, ?, directory and bin shell.
+Passwords are listed on etc/shadow
+
+processes: instance of running program. there's 2 types of processes.
+   foreground: running right in front of us. example; ping, sleep.
+   to put a foreground process to stop and sleep, press control+z.
+   use command "bg + jobId" to start the process again but in the background, but
+   it will use your terminal, and you can't stop it, to do so, use "fg + jobId", that
+   will bring to the foreground again, then you can press control+c to kill it.
+   background: process running in the background.
+
+DAEMON: processes that we don't start, like services, they will have a 'd' at the end.
+
+SYSTEMD: manage daemons. master daemon, commands the other daemons, it is the init system.
+
+systemctl: systemd utility, it's a command to control systemd and manage daemons. daemons = units.
+
+Units: they are parsed and mounted to memory.
+
+journalctl -xe: another systemd utility, logs for systemd. it is also by itself a daemon.
+

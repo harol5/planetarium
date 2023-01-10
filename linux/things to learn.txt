@@ -1,0 +1,16 @@
+rsync, managing service, systemctl, different between enabling and
+starting a service, troubleshooting, disk space?(df), how much space files are taking
+in the disk (du), mounts, networking info, primary ip address (ip addr show), what is
+an init system? (systemd), components of systemd, what is linux user is made of?,
+files system, /proc filesystem, info about processes,
+
+linux system administrator command.
+
+Basic Linux Interview Questions:
+(ssh, ls, cd, cp, pwd, rsync, systemctl, df, du, ip addr, ip route, curl)
+
+Slightly more advanced Linux:
+(init, systemd, systemctl, journalctl, some linux philosophy, /proc filesystem)
+
+open-ended questions and troubleshooting:
+(top/atop/htop/glances, lsof, /proc, ss or netstat, inodes)

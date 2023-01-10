@@ -1,0 +1,52 @@
+docker build -t {name} {Dockerfile path} # tells docker to build an image and to assign it the given name
+
+docker build -t {repo/imageName:tag} {dockerfile path}
+
+docker build -t hrcode95/planetarium:test -f ./dockerfile.dev . #this will build an image just to run testing.
+
+docker history {imageName:tag} 
+
+docker scan {imageName:tag}
+
+docker image ls #lists your images
+  
+docker image rm {imageName} #deletes a specific image
+
+docker image rm $(docker image ls -q)
+
+docker push {repo/imageName:tag}
+
+docker pull {repo/imageName:tag}
+
+docker run -d -p {host-port}:{container-port} {image-name} {override Command} # add -d if you want to run in detached mode
+docker run -d -p 3000:3000 -v /app/node_modules -v $(pwd):/app react
+                        #folderl already in container.
+
+docker ps # lists all running containers
+    
+docker ps -a # lists all containers (running and not running)
+
+docker start {container name or id}
+    
+docker stop {container name or id} #stops a container
+
+docker stop $(docker container ls -q) #gets names of all container and stop them.
+    
+docker rm {container name} #removes the container
+    
+docker logs {container name} #shows container STDOUT logs
+    
+docker-compose up -d # tells docker to create and run the services designated in a docker-compose.yml file, can run detached
+
+docker-compose down # tells docker to destroy the services designated in a docker-compose.yml file
+
+docker compose stop
+
+docker exec -it {containerName} {shellPath}
+
+docker network
+
+docker system prune #remove all data. containers and images.
+
+docker cp script jenkins:/tmp/script.sh #copy a local file to a container
+    

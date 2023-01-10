@@ -1,0 +1,40 @@
+Started at Tue Jan 10 15:46:15 UTC 2023
+Processing maven-job
+Offering maven-job to Project Build Discarder
+Processing my-fisrt-job
+Offering my-fisrt-job to Project Build Discarder
+Processing pipeline
+Offering pipeline to Project Build Discarder
+Processing test
+Offering test to Project Build Discarder
+Finished at Tue Jan 10 15:46:15 UTC 2023. 38ms
+Started at Tue Jan 10 16:46:12 UTC 2023
+Processing maven-job
+Offering maven-job to Project Build Discarder
+Processing my-fisrt-job
+Offering my-fisrt-job to Project Build Discarder
+Processing pipeline
+Offering pipeline to Project Build Discarder
+Processing test
+Offering test to Project Build Discarder
+Finished at Tue Jan 10 16:46:12 UTC 2023. 30ms
+Started at Tue Jan 10 17:46:09 UTC 2023
+Processing maven-job
+Offering maven-job to Project Build Discarder
+Processing my-fisrt-job
+Offering my-fisrt-job to Project Build Discarder
+Processing pipeline
+Offering pipeline to Project Build Discarder
+Processing test
+Offering test to Project Build Discarder
+Finished at Tue Jan 10 17:46:09 UTC 2023. 36ms
+Started at Tue Jan 10 19:04:43 UTC 2023
+Processing maven-job
+Offering maven-job to Project Build Discarder
+Processing my-fisrt-job
+Offering my-fisrt-job to Project Build Discarder
+Processing pipeline
+Offering pipeline to Project Build Discarder
+Processing test
+Offering test to Project Build Discarder
+Finished at Tue Jan 10 19:04:43 UTC 2023. 26ms

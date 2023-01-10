@@ -1,0 +1,48 @@
+#You can have multiple components inside a file;
+#Deployment and Service components usually go together because deployments need services.
+#We will use Deployment component in this case because we're only creating 1 DB,
+#but if you want to create multiple replicas of a DB, use StatefulSet component.
+apiVersion: apps/v1
+kind: Deployment  # a component that is use as a blueprint for pods.
+metadata:
+  name: mongo-deployment  #name of the component .
+  labels:  #you can identify different components using labels. (key:value pairs). Optional.
+    app: mongo
+spec:  #content of this component.
+  replicas: 1 #how many pods you want to create.
+  selector:
+    matchLabels:  #this will match with pods created in this deployment.
+      app: mongo
+  template:  #config of the pods.
+    metadata:
+      labels:  #this label will identify all replicas(pods). (key:value pairs). Require.
+        app: mongo
+    spec:
+      containers:
+        - name: mongodb  #name of container.
+          image: mongo:5.0  #image we want to use.
+          ports:
+            - containerPort: 27017
+          env: #sets environment variables.
+            - name: MONGO_INITDB_ROOT_USERNAME  #name of variable.
+              valueFrom:  #gets values from secret.
+                secretKeyRef:
+                  name: mongo-secret #name of secret component where the value is.
+                  key: mongo-user #key on secret component that reference the encoded value.
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-password
+--- #this separates components in a file.
+apiVersion: v1
+kind: Service  #this component will forward requests to the appropriated pods.
+metadata:
+  name: mongo-service
+spec:
+  selector:
+    app.kubernetes.io/name: mongo  #Label of the pods this service will be connected to.
+  ports:
+    - protocol: TCP
+      port: 27017  #port of the service component. use inside the cluster. can be different but usually get same port as targetPort.
+      targetPort: 27017 #port of the containers.
