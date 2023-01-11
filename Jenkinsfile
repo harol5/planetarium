@@ -7,20 +7,5 @@ pipeline {
       }
     }
 
-    stage('Build') {
-      steps {
-        sh 'docker build -t hrcode95/planetarium:test -f ./dockerfile.dev .'
-      }
-    }
-
-    stage('Login') {
-      environment {
-        dockerhub = credencials('dockerhub')
-      }
-      steps {
-        sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-      }
-    }
-
   }
 }
