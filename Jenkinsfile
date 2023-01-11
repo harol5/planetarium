@@ -7,9 +7,9 @@ pipeline {
       }
     }
 
-    stage('shell') {
+    stage('Build') {
       steps {
-        sh 'ls -a'
+        sh 'docker build -t hrcode95/planetarium:test -f ./dockerfile.dev .'
       }
     }
 
