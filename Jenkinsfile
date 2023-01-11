@@ -9,7 +9,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh 'sudo docker build -t hrcode95/planetarium:test -f ./dockerfile.dev .'
+        sh 'docker build -t hrcode95/planetarium:test -f ./dockerfile.dev .'
       }
     }
 
