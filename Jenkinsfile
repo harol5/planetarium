@@ -15,11 +15,10 @@ pipeline {
 
     stage('Login') {
       environment {
-        DOCKER_USERNAME = '$DOCKER_USERNAME'
-        DOCKER_PASSWORD = '$DOCKER_PASSWORD'
+        dockerhub = credencials('dockerhub')
       }
       steps {
-        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+        sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
       }
     }
 
