@@ -22,6 +22,8 @@ docker run -d -p {host-port}:{container-port} {image-name} {override Command} # 
 docker run -d -p 3000:3000 -v /app/node_modules -v $(pwd):/app react
                         #folderl already in container.
 
+docker run -e POSTGRES_HOST -e POSTGRES_PORT -e POSTGRES_DATABASE -e POSTGRES_USERNAME -e POSTGRES_PASSWORD hrcode95/planetarium:test
+
 docker ps # lists all running containers
     
 docker ps -a # lists all containers (running and not running)
@@ -50,4 +52,13 @@ docker system prune #remove all data. containers and images.
 
 docker cp script jenkins:/tmp/script.sh #copy a local file to a container
 
-    
+
+docker run -d -t -i -e REDIS_NAMESPACE='staging' \
+-e POSTGRES_ENV_POSTGRES_PASSWORD='foo' \
+-e POSTGRES_ENV_POSTGRES_USER='bar' \
+-e POSTGRES_ENV_DB_NAME='mysite_staging' \
+-e POSTGRES_PORT_5432_TCP_ADDR='docker-db-1.hidden.us-east-1.rds.amazonaws.com' \
+-e SITE_URL='staging.mysite.com' \
+-p 80:80 \
+--link redis:redis \
+--name container_name dockerhub_id/image_name

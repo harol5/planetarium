@@ -3,17 +3,17 @@ version: '3'
 services:
 
   app:
-    image: hrcode95/planetarium:prometheus
+    image: hrcode95/planetarium:0.0.1
     container_name: planetarium
     ports:
       - 8080:8080
 #      - 5432:5432
     environment:
-      - POSTGRES_HOST=
-      - POSTGRES_USERNAME=
-      - POSTGRES_PASSWORD=
-      - POSTGRES_DATABASE=
-      - POSTGRES_PORT=
+      - POSTGRES_HOST=$POSTGRES_HOST
+      - POSTGRES_PORT=$POSTGRES_PORT
+      - POSTGRES_DATABASE=$POSTGRES_DATABASE
+      - POSTGRES_USERNAME=$POSTGRES_USERNAME
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
     volumes:
       - ./logs/:/logs/
 

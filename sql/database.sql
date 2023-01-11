@@ -1,5 +1,5 @@
 -- Connect to remote DB command.
-psql "--conects by default database."
+psql --"--conects by default database."
 psql --host=example-database.cy6kcah5hexg.us-east-1.rds.amazonaws.com --port=5432 --username=postgres --password --dbname=example
 psql --help
 

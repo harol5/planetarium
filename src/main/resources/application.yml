@@ -3,3 +3,10 @@ spring:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
+---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
