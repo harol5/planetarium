@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap  #component
+metadata:
+  name: planetarium-config  #arbitrary name
+data:  #content
+  POSTGRES_HOST: planetarium.cy6kcah5hexg.us-east-1.rds.amazonaws.com
+  POSTGRES_PORT: "5432"
+  POSTGRES_DATABASE: planetarium
+  POSTGRES_USERNAME: postgres
