@@ -13,13 +13,13 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
         // any environment variables we want to use can go in here
         // I recommend setting variables for the docker registry (which doubles as the image name)
         // and a variable to represent the image itself
-        PLANETARIUM_REGISTRY='hrcode95/jenkins'
+        PLANETARIUM_REGISTRY='hrcode95/jenkins:test'
         PLANETARIUM_IMAGE=''
     }
 
     stages{
         // this is where the steps of the job will be defined
-        stage("build and push docker image"){
+        stage("build and test"){
             // steps is where the actual commands go
             steps{
                 // echo "print something to the console"
@@ -27,13 +27,14 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                     // the script section is sometimes needed when using functions provided by Jenkins plugins
                     script{
                         // build(image name and tag, location of dockerfile)
-                        PLANETARIUM_IMAGE= docker.build(PLANETARIUM_REGISTRY,".")
+                        PLANETARIUM_IMAGE= docker.build(PLANETARIUM_REGISTRY,"-f ./dockerfile.dev .")
                         // withRegistry(repo location empty string if docker hub, docker credentials)
                         docker.withRegistry("", 'docker-creds'){
                             PLANETARIUM_IMAGE.push("$currentBuild.number")
                             // might be worth doing two pushes, one to give a tag for the current version, and another
                             // to update the "latest" tag
                         }
+                        //docker.image('').withRun('-p 3306:3306')
                     }
                     sh 'docker -v'
                 }
