@@ -35,6 +35,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                             // to update the "latest" tag
                         }
                     }
+                    sh 'docker -v'
                 }
             }
         }
