@@ -7,4 +7,4 @@ spec:
     - ReadWriteOnce #can be used by a single node, ReadOnlyMany: multiple nodes can read from this, ReadWriteMany: read and write by many
   resources:
     requests:
-      storage: 2Gi #size allocated in disk.
+      storage: 1Gi #size allocated in disk.

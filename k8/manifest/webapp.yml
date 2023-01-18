@@ -55,3 +55,94 @@ spec:
       nodePort: 30100 #this will open a port in kubernetes node. this will make the app accessible,
       #with the node ip address and port, we will be able to access this service, then the service will access the pods.
       #Can not be random (30000 - 32767).
+
+
+
+
+
+
+
+
+apiVersion: apps/v1
+kind: Deployment  # a resource that is use as a blueprint for pods.
+metadata:
+  name: planetarium-deployment  #name of the component .
+  labels:  #you can identify different components using labels. (key:value pairs). Optional.
+    app: planetarium
+spec:  #content of this component.
+  replicas: 1 #how many pods you want to create.
+  selector:
+    matchLabels:  #this will match with pods created in this deployment.
+      app: planetarium
+  template:  #config of the pods.
+    metadata:
+      labels:  #this label will identify all replicas(pods). (key:value pairs). Require.
+        app: planetarium
+    spec:
+      volumes:
+        - name: logs # this is the volume that will have data from the pod stored in
+        - name: promtail-config # volume name
+          configMap: # configMaps are objects key value pair collections, usually of non-sensitive information
+            name: promtail-config # configMap name
+      containers:
+        - name: promtail-container
+          image: grafana/promtail
+          args:
+            - -config.file=/etc/promtail/promtail.yml
+          volumeMounts:
+            - name: logs # the promtail and greeter containers will share this logs volume
+              mountPath: /logs # this is where the logs will be saved in the promtail container
+            - name: promtail-config
+              mountPath: /etc/promtail
+        - name: planetarium  #name of container.
+          image: hrcode95/planetarium:0.0.2  #image we want to use.
+          ports:
+            - containerPort: 8080
+          volumeMounts: # this tells Kubernetes what directory/files to add to a volume
+            - mountPath: /logs
+              name: logs # this is the volume we want the logs mounted to
+          env:
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: planetarium-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: planetarium-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: planetarium-config
+                  key: POSTGRES_DATABASE
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: planetarium-config
+                  key: POSTGRES_USERNAME
+            - name: POSTGRES_PASSWORD  #name of variable.
+              valueFrom: #gets values from secret.
+                secretKeyRef:
+                  name: planetarium-secret  #name of secret component where the value is.
+                  key: POSTGRES_PASSWORD  #key on secret component that reference the encoded value.
+--- #this separates components in a file.
+apiVersion: v1
+kind: Service  #this component will forward requests to the appropriated pods.
+metadata:
+  name: planetarium-service
+  labels:
+    app: planetarium
+spec:
+  type: ClusterIP #this makes this app accessible on the browser. default: ClusterIp. Now is an external Service component.
+  selector:
+    app: planetarium  #Label of the pods this service will be connected to.
+  ports:
+    - name: http # this is needed for your service monitor to target this service
+      protocol: TCP
+      port: 8080  #port of the service component. use inside the cluster. can be different but usually get same port as targetPort.
+      targetPort: 8080 #port of the containers.
+#      nodePort: 30200 #this will open a port in kubernetes node. this will make the app accessible,
+#      #with the node ip address and port, we will be able to access this service, then the service will access the pods.
+#      #Can not be random (30000 - 32767).

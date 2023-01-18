@@ -20,42 +20,33 @@ spec:  #content of this component.
           ports:
             - containerPort: 8080
           env:
-            - name: POSTGRES_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: planetarium-config
-                  key: POSTGRES_HOST
-            - name: POSTGRES_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: planetarium-config
-                  key: POSTGRES_PORT
-            - name: POSTGRES_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: planetarium-config
-                  key: POSTGRES_DATABASE
             - name: POSTGRES_USERNAME
+              value: postgres
+            - name: POSTGRES_HOST
+              value: postgres-cluster-ip-service
+            - name: POSTGRES_PORT
+              value: '5432'
+            - name: POSTGRES_DATABASE
+              value: postgres
+            - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: planetarium-config
-                  key: POSTGRES_USERNAME
-            - name: POSTGRES_PASSWORD  #name of variable.
-              valueFrom: #gets values from secret.
                 secretKeyRef:
-                  name: planetarium-secret  #name of secret component where the value is.
-                  key: POSTGRES_PASSWORD  #key on secret component that reference the encoded value.
+                  name: postgres-secret
+                  key: PGPASSWORD
 --- #this separates components in a file.
 apiVersion: v1
 kind: Service  #this component will forward requests to the appropriated pods.
 metadata:
   name: planetarium-service
+  labels:
+    app: planetarium
 spec:
   type: ClusterIP #this makes this app accessible on the browser. default: ClusterIp. Now is an external Service component.
   selector:
     app: planetarium  #Label of the pods this service will be connected to.
   ports:
-    - protocol: TCP
+    - name: http # this is needed for your service monitor to target this service
+      protocol: TCP
       port: 8080  #port of the service component. use inside the cluster. can be different but usually get same port as targetPort.
       targetPort: 8080 #port of the containers.
 #      nodePort: 30200 #this will open a port in kubernetes node. this will make the app accessible,
