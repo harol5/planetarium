@@ -13,8 +13,8 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
         // any environment variables we want to use can go in here
         // I recommend setting variables for the docker registry (which doubles as the image name)
         // and a variable to represent the image itself
-        DEVOPS_REGISTRY='hrcode95/jenkins'
-        DEVOPS_IMAGE=''
+        PLANETARIUM_REGISTRY='hrcode95/jenkins'
+        PLANETARIUM_IMAGE=''
     }
 
     stages{
@@ -27,10 +27,10 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                     // the script section is sometimes needed when using functions provided by Jenkins plugins
                     script{
                         // build(image name and tag, location of dockerfile)
-                        DEVOPS_IMAGE= docker.build(DEVOPS_REGISTRY,".")
+                        PLANETARIUM_IMAGE= docker.build(PLANETARIUM_REGISTRY,".")
                         // withRegistry(repo location empty string if docker hub, docker credentials)
                         docker.withRegistry("", 'docker-creds'){
-                            DEVOPS_IMAGE.push("$currentBuild.number")
+                            PLANETARIUM_IMAGE.push("$currentBuild.number")
                             // might be worth doing two pushes, one to give a tag for the current version, and another
                             // to update the "latest" tag
                         }
