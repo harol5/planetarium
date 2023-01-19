@@ -15,6 +15,10 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
         // and a variable to represent the image itself
         PLANETARIUM_REGISTRY='hrcode95/jenkins:test'
         PLANETARIUM_IMAGE=''
+        HOST='postgres-cluster-ip-service'
+        PORT='5432'
+        DATABASE='postgres'
+        POSTGRES=credentials('postgres')
     }
 
     stages{
@@ -28,13 +32,15 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                     script{
                         // build(image name and tag, location of dockerfile)
                         PLANETARIUM_IMAGE= docker.build(PLANETARIUM_REGISTRY,"-f ./dockerfile.dev .")
+
+                        docker.image('hrcode95/planetarium:test').withRun('-e POSTGRES_HOST=$HOST -e POSTGRES_PORT=$PORT -e POSTGRES_DATABASE=$DATABASE -e POSTGRES_USERNAME=$POSTGRES_USR -e POSTGRES_PASSWORD=$POSTGRES_PSW')
+
                         // withRegistry(repo location empty string if docker hub, docker credentials)
                         docker.withRegistry("", 'docker-creds'){
                             PLANETARIUM_IMAGE.push("$currentBuild.number")
                             // might be worth doing two pushes, one to give a tag for the current version, and another
                             // to update the "latest" tag
                         }
-                        //docker.image('').withRun('-p 3306:3306')
                     }
                     sh 'docker -v'
                 }
