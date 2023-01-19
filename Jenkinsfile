@@ -13,8 +13,10 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
         // any environment variables we want to use can go in here
         // I recommend setting variables for the docker registry (which doubles as the image name)
         // and a variable to represent the image itself
-        PLANETARIUM_REGISTRY='hrcode95/jenkins:test'
-        PLANETARIUM_IMAGE=''
+        PLANETARIUM_TEST='hrcode95/jenkins:test'
+        PLANETARIUM_IMAGE_TEST=''
+        PLANETARIUM_PROD='hrcode95/jenkins:prod'
+        PLANETARIUM_IMAGE_PROD=''
         HOST='postgres-cluster-ip-service'
         PORT='5432'
         DATABASE='postgres'
@@ -31,10 +33,24 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                     // the script section is sometimes needed when using functions provided by Jenkins plugins
                     script{
                         // build(image name and tag, location of dockerfile)
-                        PLANETARIUM_IMAGE= docker.build(PLANETARIUM_REGISTRY,"-f ./dockerfile.dev .")
+                        PLANETARIUM_IMAGE_TEST= docker.build(PLANETARIUM_TEST,"-f ./dockerfile.dev .")
                         sh 'docker run -e POSTGRES_HOST=$HOST -e POSTGRES_PORT=$PORT -e POSTGRES_DATABASE=$DATABASE -e POSTGRES_USERNAME=$POSTGRES_USR -e POSTGRES_PASSWORD=$POSTGRES_PSW hrcode95/jenkins:test'
                     }
                 }
+            }
+        }
+
+        stage("build and push to Dockerhub"){
+            steps{
+                container("docker"){
+                   script{
+                      PLANETARIUM_IMAGE_PROD= docker.build(PLANETARIUM_PROD,".")
+                      docker.withRegistry("", 'docker-creds'){
+                         PLANETARIUM_IMAGE_PROD.push("$currentBuild.number")
+                      }
+                   }
+                }
+                sh 'echo "************Image pushed to dockerhub********************"'
             }
         }
     }
