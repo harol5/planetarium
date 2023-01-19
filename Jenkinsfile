@@ -39,7 +39,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                         docker.withRegistry("", 'docker-creds'){
                             PLANETARIUM_IMAGE.push("$currentBuild.number")
                             // might be worth doing two pushes, one to give a tag for the current version, and another
-                            // to update the "latest" tag
+                            // to update the "latest" tagg
                         }
                     }
                     sh 'docker -v'
