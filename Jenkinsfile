@@ -30,20 +30,13 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                 container("docker"){
                     // the script section is sometimes needed when using functions provided by Jenkins plugins
                     script{
-                        def args = "-e POSTGRES_HOST=${HOST} -e POSTGRES_PORT=${PORT} -e POSTGRES_DATABASE=${DATABASE} -e POSTGRES_USERNAME=${POSTGRES_USR} -e POSTGRES_PASSWORD=${POSTGRES_PSW}"
+                        //def args = "-e POSTGRES_HOST=${HOST} -e POSTGRES_PORT=${PORT} -e POSTGRES_DATABASE=${DATABASE} -e POSTGRES_USERNAME=${POSTGRES_USR} -e POSTGRES_PASSWORD=${POSTGRES_PSW}"
                         // build(image name and tag, location of dockerfile)
                         PLANETARIUM_IMAGE= docker.build(PLANETARIUM_REGISTRY,"-f ./dockerfile.dev .")
 
-                        docker.image('hrcode95/planetarium:test').withRun("${args}")
-
-                        // withRegistry(repo location empty string if docker hub, docker credentials)
-                        docker.withRegistry("", 'docker-creds'){
-                            PLANETARIUM_IMAGE.push("$currentBuild.number")
-                            // might be worth doing two pushes, one to give a tag for the current version, and another
-                            // to update the "latest" tag
-                        }
+                        //docker.image('hrcode95/planetarium:test').withRun("${args}")
                     }
-                    sh 'docker -v'
+                    sh 'docker run -e POSTGRES_HOST=$HOST -e POSTGRES_PORT=$PORT -e POSTGRES_DATABASE=$DATABASE -e POSTGRES_USERNAME=$POSTGRES_USR -e POSTGRES_PASSWORD=$POSTGRES_PSW hrcode95/jenkins:test'
                 }
             }
         }
