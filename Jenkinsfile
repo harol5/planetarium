@@ -32,10 +32,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                     script{
                         // build(image name and tag, location of dockerfile)
                         PLANETARIUM_IMAGE= docker.build(PLANETARIUM_REGISTRY,"-f ./dockerfile.dev .")
-
-                        docker.image('hrcode95/planetarium:test').inside{
-                           sh "-e POSTGRES_HOST=\"${HOST}\" -e POSTGRES_PORT=\"${PORT}\" -e POSTGRES_DATABASE=\"${DATABASE}\" -e POSTGRES_USERNAME=\"${POSTGRES_USR}\" -e POSTGRES_PASSWORD=\"${POSTGRES_PSW}\""
-                        }
+                        sh 'docker run -e POSTGRES_HOST=$HOST -e POSTGRES_PORT=$PORT -e POSTGRES_DATABASE=$DATABASE -e POSTGRES_USERNAME=$POSTGRES_USR -e POSTGRES_PASSWORD=$POSTGRES_PSW hrcode95/jenkins:test'
                     }
                 }
             }
