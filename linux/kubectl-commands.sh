@@ -85,3 +85,5 @@ kubectl get secret --namespace default planetarium-grafana -o jsonpath="{.data.a
 kubectl exec -it pod/postgres-deployment-7f86bb6b4b-47fth -c postgres -- psql -d postgres -U postgres
 
 kubectl config set-context $(kubectl config current-context) --namespace=<nameSpace>
+
+kubectl rollout undo deployment/<deploymentName> #rollback to a previous deployment in que case that a new version of the apps fails.

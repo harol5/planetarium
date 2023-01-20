@@ -21,6 +21,10 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
         PORT='5432'
         DATABASE='postgres'
         POSTGRES=credentials('postgres')
+        PROJECT_ID = 'academic-veld-373717'
+        CLUSTER_NAME = 'cluster-1'
+        LOCATION = 'us-central1-c'
+        CREDENTIALS_ID = 'cluster-1'
     }
 
     stages{
@@ -51,6 +55,19 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                    }
                 }
                 sh 'echo "************Image pushed to dockerrhub********************"'
+            }
+        }
+
+        stage('Deploy to GKE') {
+            steps{
+                step([
+                $class: 'KubernetesEngineBuilder',
+                projectId: env.PROJECT_ID,
+                clusterName: env.CLUSTER_NAME,
+                location: env.LOCATION,
+                manifestPattern: './k8/planetarium-app/planetarium.yml',
+                credentialsId: env.CREDENTIALS_ID,
+                verifyDeployments: true])
             }
         }
     }
