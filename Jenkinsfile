@@ -50,7 +50,7 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                       }
                    }
                 }
-                sh 'echo "************Image pushed to dockerhub********************"'
+                sh 'echo "************Image pushed to dockerrhub********************"'
             }
         }
     }
