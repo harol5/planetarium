@@ -25,7 +25,7 @@ pipeline{
     environment{
         PLANETARIUM_TEST='hrcode95/jenkins:test'
         PLANETARIUM_IMAGE_TEST=''
-        PLANETARIUM_PROD='hrcode95/jenkins:prod'
+        PLANETARIUM_PROD='hrcode95/jenkins'
         PLANETARIUM_IMAGE_PROD=''
         HOST='postgres-cluster-ip-service'
         PORT='5432'
@@ -84,9 +84,7 @@ pipeline{
                 manifestPattern: 'k8/planetarium-app/planetarium.yml',
                 credentialsId: env.CREDENTIALS_ID,
                 verifyDeployments: true])
-                sh 'export SHA=$(git rev-parse HEAD)'
-                sh 'kubectl version'
-                sh 'echo $SHA'
+                sh 'kubectl set image delployment/planetarium-deployment planetarium=$PLANETARIUM_IMAGE_PROD'
                 }
                 sh 'echo "*******************SHA******************************"'
                 sh 'git rev-parse HEAD'
