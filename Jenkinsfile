@@ -1,10 +1,7 @@
-pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
+pipeline{
 
     agent{
-        // this is where we will tell Jenkins what agent to use for this build
         kubernetes{
-            // this tells Jenkins to use the pod called "devops" we defined in the jenkins-values.yaml file
-            // which will give us access to the docker commands we need to build/push our docker image
             inheritFrom "planetarium"
             yaml """
             apiVersion: v1
@@ -16,16 +13,6 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
               # Use service account that can deploy to all namespaces
               serviceAccountName: jenkins-planetarium
               containers:
-              - name: golang
-                image: golang:1.10
-                command:
-                - cat
-                tty: true
-              - name: gcloud
-                image: gcr.io/cloud-builders/gcloud
-                command:
-                - cat
-                tty: true
               - name: kubectl
                 image: gcr.io/cloud-builders/kubectl
                 command:
@@ -36,9 +23,6 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
     }
 
     environment{
-        // any environment variables we want to use can go in here
-        // I recommend setting variables for the docker registry (which doubles as the image name)
-        // and a variable to represent the image itself
         PLANETARIUM_TEST='hrcode95/jenkins:test'
         PLANETARIUM_IMAGE_TEST=''
         PLANETARIUM_PROD='hrcode95/jenkins:prod'
@@ -55,6 +39,25 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
 
     stages{
 
+        stage("build image for testing"){
+            steps{
+                container("docker"){
+                    script{
+                        PLANETARIUM_IMAGE_TEST= docker.build(PLANETARIUM_TEST,"-f ./dockerfile.dev .")
+                    }
+                }
+            }
+        }
+
+        stage("testing"){
+            steps{
+                container("docker"){
+                    script{
+                        sh 'docker run -e POSTGRES_HOST=$HOST -e POSTGRES_PORT=$PORT -e POSTGRES_DATABASE=$DATABASE -e POSTGRES_USERNAME=$POSTGRES_USR -e POSTGRES_PASSWORD=$POSTGRES_PSW hrcode95/jenkins:test'
+                    }
+                }
+            }
+        }
 
         stage("build and push to Dockerhub"){
             steps{
