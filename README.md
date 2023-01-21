@@ -23,7 +23,7 @@
 
 -----------------------------------------------------------------------------------------------------------------------
 
-# Deploying in gke
+# Deploying in GKE
 
 ## Postgres
 * apply postgres pvc, postgres secret, postgres clusterip, postgres deployment.
@@ -75,13 +75,13 @@ volumes:
 * kubectl create clusterrolebinding jenkins-deploy \
   --clusterrole=cluster-admin --serviceaccount=default:jenkins-planetarium
 
-### Jenkins setup with github
-1. create pipiline
-2. Build Triggers: githud hook
-3. pipeline script from scm > add github repo url > /main > Script path: Jenkinsfile > uncheck Lightweight checkout.
-4. go to the github repo and add wedHook: settings>Webhooks>addWebhook> http://{ip}/jenkins/github-webhook/
-5. create Jenkinsfile
-6. git add, git commit, git push
+    ### Jenkins setup with github
+       1. create pipiline
+       2. Build Triggers: githud hook
+       3. pipeline script from scm > add github repo url > /main > Script path: Jenkinsfile > uncheck Lightweight checkout.
+       4. go to the github repo and add wedHook: settings>Webhooks>addWebhook> http://{ip}/jenkins/github-webhook/
+       5. create Jenkinsfile
+       6. git add, git commit, git push
 
 ## Planetarium app
 * after pushing into github, jenkins should build test and deploy the planetarium and ingress service manifest to GKE.
