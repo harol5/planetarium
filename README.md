@@ -71,6 +71,11 @@ volumes:
 #------------------------------------------------------------------------------------------------------------
 helm install jenkins-planetarium jenkins/jenkins -f jenkins-values.yml
 kubectl exec --namespace default -it svc/jenkins-planetarium -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+kubectl create clusterrolebinding jenkins-deploy \
+--clusterrole=cluster-admin --serviceaccount=default:jenkins-planetarium
+
+
+
 
 1. create pipiline
 2. Build Triggers: githud hook
@@ -78,3 +83,6 @@ kubectl exec --namespace default -it svc/jenkins-planetarium -c jenkins -- /bin/
 4. go to the github repo and add wedHook: settings>Webhooks>addWebhook> http://{ip}/jenkins/github-webhook/
 5. create Jenkinsfile
 6. git add, git commit, git push
+
+
+helm upgrade [RELEASE] [CHART] [flags]

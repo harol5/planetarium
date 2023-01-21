@@ -10,6 +10,10 @@ controller:
     - pipeline-stage-view
     - timestamper
     - github
+    - google-oauth-plugin:latest
+    - google-source-plugin:latest
+    - google-kubernetes-engine:latest
+    - google-storage-plugin:latest
 
   JCasC:
     defaultConfig: true
