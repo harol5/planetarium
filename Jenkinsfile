@@ -35,7 +35,7 @@ pipeline{
         CLUSTER_NAME = 'cluster-1'
         LOCATION = 'us-central1-c'
         CREDENTIALS_ID = 'cluster-1'
-        SHA=$(git rev-parse HEAD)
+        SHA=git rev-parse HEAD
     }
 
     stages{
