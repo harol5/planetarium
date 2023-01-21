@@ -57,7 +57,7 @@ kubectl delete -f {fileName}
 
 kubectl create secret generic <secret_name> --from-literal <key=value>
 
-kubectl set image delployment/planetarium-deployment client=hrcode95/planetarium:newVersion
+kubectl set image delployment/planetarium-deployment planetarium=hrcode95/planetarium:$SHA
 
 eval $(minikube docker-env) # connect to docker inside vm on current terminal windomw.
 
