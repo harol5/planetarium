@@ -87,3 +87,8 @@ kubectl exec -it pod/postgres-deployment-7f86bb6b4b-47fth -c postgres -- psql -d
 kubectl config set-context $(kubectl config current-context) --namespace=<nameSpace>
 
 kubectl rollout undo deployment/<deploymentName> #rollback to a previous deployment in que case that a new version of the apps fails.
+
+kubectl create serviceaccount <Name>
+
+kubectl create token <serviceAccountName>
+
