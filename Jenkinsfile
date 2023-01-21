@@ -35,7 +35,6 @@ pipeline{
         CLUSTER_NAME = 'cluster-1'
         LOCATION = 'us-central1-c'
         CREDENTIALS_ID = 'cluster-1'
-        SHA=git rev-parse HEAD
     }
 
     stages{
@@ -85,6 +84,7 @@ pipeline{
                 manifestPattern: 'k8/planetarium-app/planetarium.yml',
                 credentialsId: env.CREDENTIALS_ID,
                 verifyDeployments: true])
+                sh 'export SHA=$(git rev-parse HEAD)'
                 sh 'kubectl version'
                 sh 'echo $SHA'
                 }
