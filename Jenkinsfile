@@ -84,7 +84,7 @@ pipeline{
                 manifestPattern: 'k8/planetarium-app/planetarium.yml',
                 credentialsId: env.CREDENTIALS_ID,
                 verifyDeployments: true])
-                sh 'kubectl set image delployment/planetarium-deployment planetarium=$PLANETARIUM_IMAGE_PROD'
+                sh 'kubectl set image deployment/planetarium-deployment planetarium=$PLANETARIUM_IMAGE_PROD'
                 }
                 sh 'echo "*******************SHA******************************"'
                 sh 'git rev-parse HEAD'
