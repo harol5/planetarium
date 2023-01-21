@@ -25,7 +25,7 @@ pipeline{
     environment{
         PLANETARIUM_TEST='hrcode95/jenkins:test'
         PLANETARIUM_IMAGE_TEST=''
-        PLANETARIUM_PROD='hrcode95/jenkins'
+        PLANETARIUM_PROD="hrcode95/jenkins:${env.BUILD_NUMBER}"
         PLANETARIUM_IMAGE_PROD=''
         HOST='postgres-cluster-ip-service'
         PORT='5432'
@@ -65,7 +65,7 @@ pipeline{
                    script{
                       PLANETARIUM_IMAGE_PROD= docker.build(PLANETARIUM_PROD,".")
                       docker.withRegistry("", 'docker-creds'){
-                         PLANETARIUM_IMAGE_PROD.push("$currentBuild.number")
+                         PLANETARIUM_IMAGE_PROD.push()
                       }
                    }
                 }
@@ -84,9 +84,9 @@ pipeline{
                 manifestPattern: 'k8/planetarium-app/planetarium.yml',
                 credentialsId: env.CREDENTIALS_ID,
                 verifyDeployments: true])
+                sh("echo ${PLANETARIUM_PROD}")
                 //sh 'kubectl set image deployment/planetarium-deployment planetarium=hrcode95/jenkins:${currentBuild.number}'
                 }
-                sh 'echo $currentBuild.number'
                 sh 'echo "*******************SHA******************************"'
                 sh 'git rev-parse HEAD'
                 sh 'echo "*******************SHA******************************"'
