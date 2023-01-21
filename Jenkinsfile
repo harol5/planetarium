@@ -25,7 +25,7 @@ pipeline{
     environment{
         PLANETARIUM_TEST='hrcode95/jenkins:test'
         PLANETARIUM_IMAGE_TEST=''
-        PLANETARIUM_PROD="hrcode95/jenkins:${env.BUILD_NUMBER}"
+        PLANETARIUM_PROD="hrcode95/planetarium:${env.BUILD_NUMBER}"
         PLANETARIUM_IMAGE_PROD=''
         HOST='postgres-cluster-ip-service'
         PORT='5432'
@@ -86,9 +86,6 @@ pipeline{
                 verifyDeployments: true])
                 sh("kubectl set image deployment/planetarium-deployment planetarium=${PLANETARIUM_PROD}")
                 }
-                sh 'echo "*******************SHA******************************"'
-                sh 'git rev-parse HEAD'
-                sh 'echo "*******************SHA******************************"'
             }
         }
     }

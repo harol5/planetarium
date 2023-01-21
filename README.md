@@ -1,4 +1,4 @@
-#STEPS
+#Deploying in minikube
 1. make sure you're in the right folder
 2. start minikube
 3. install nginx helm chart, then run <minikube addons enable ingress>
@@ -25,7 +25,7 @@
 
 -----------------------------------------------------------------------------------------------------------------------
 
-for gke
+#Deploying in gke
 apply postgres pvc, postgres secret, postgres clusterip, postgres deployment.
 create tables= kubectl exec -it <podName> -c postgres -- psql -d postgres -U postgres
 #--------------------------------------------------------------------------------------
