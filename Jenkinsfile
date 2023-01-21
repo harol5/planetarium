@@ -85,6 +85,9 @@ pipeline{
                 credentialsId: env.CREDENTIALS_ID,
                 verifyDeployments: true])
                 }
+                sh 'echo "*******************SHA******************************"'
+                sh 'git rev-parse HEAD'
+                sh 'echo "*******************SHA******************************"'
             }
         }
     }
