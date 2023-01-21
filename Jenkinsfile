@@ -53,22 +53,8 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
         CREDENTIALS_ID = 'cluster-1'
     }
 
-//     stages{
-//         // this is where the steps of the job will be defined
-//         stage("build and test"){
-//             // steps is where the actual commands go
-//             steps{
-//                 // echo "print something to the console"
-//                 container("docker"){
-//                     // the script section is sometimes needed when using functions provided by Jenkins plugins
-//                     script{
-//                         // build(image name and tag, location of dockerfile)
-//                         PLANETARIUM_IMAGE_TEST= docker.build(PLANETARIUM_TEST,"-f ./dockerfile.dev .")
-//                         sh 'docker run -e POSTGRES_HOST=$HOST -e POSTGRES_PORT=$PORT -e POSTGRES_DATABASE=$DATABASE -e POSTGRES_USERNAME=$POSTGRES_USR -e POSTGRES_PASSWORD=$POSTGRES_PSW hrcode95/jenkins:test'
-//                     }
-//                 }
-//             }
-//         }
+    stages{
+
 
         stage("build and push to Dockerhub"){
             steps{
@@ -98,5 +84,5 @@ pipeline{ // the entire Jenkins Job needs to go inside the pipeline section
                 }
             }
         }
-
+    }
 }
