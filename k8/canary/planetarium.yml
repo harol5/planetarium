@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment  # a resource that is use as a blueprint for pods.
+metadata:
+  name: planetarium-canary  #name of the component .
+  labels:  #you can identify different components using labels. (key:value pairs). Optional.
+    app: planetarium
+spec:  #content of this component.
+  replicas: 1 #how many pods you want to create.
+  selector:
+    matchLabels:  #this will match with pods created in this deployment.
+      app: planetarium
+  template:  #config of the pods.
+    metadata:
+      labels:  #this label will identify all replicas(pods). (key:value pairs). Require.
+        app: planetarium
+    spec:
+      containers:
+        - name: planetarium  #name of container.
+          image: hrcode95/planetarium:0.0.1  #image we want to use.
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_USERNAME
+              value: postgres
+            - name: POSTGRES_HOST
+              value: postgres-cluster-ip-service
+            - name: POSTGRES_PORT
+              value: '5432'
+            - name: POSTGRES_DATABASE
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: PGPASSWORD
+--- #this separates components in a file.
+apiVersion: v1
+kind: Service  #this component will forward requests to the appropriated pods.
+metadata:
+  name: planetarium-service
+  labels:
+    app: planetarium
+spec:
+  type: ClusterIP #this makes this app accessible on the browser. default: ClusterIp. Now is an external Service component.
+  selector:
+    app: planetarium  #Label of the pods this service will be connected to.
+  ports:
+    - name: http # this is needed for your service monitor to target this service
+      protocol: TCP
+      port: 8080  #port of the service component. use inside the cluster. can be different but usually get same port as targetPort.
+      targetPort: 8080 #port of the containers.
+#      nodePort: 30200 #this will open a port in kubernetes node. this will make the app accessible,
+#      #with the node ip address and port, we will be able to access this service, then the service will access the pods.
+#      #Can not be random (30000 - 32767).

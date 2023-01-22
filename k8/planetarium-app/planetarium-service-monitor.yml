@@ -13,4 +13,4 @@ spec:
   endpoints:
     - port: http # this tells the service monitor to target a port with the name value of http
       path: /actuator/prometheus
-      interval: 10s
+      interval: 5s

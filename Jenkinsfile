@@ -73,11 +73,32 @@ pipeline{
             }
         }
 
-        stage('Deploy to GKE') {
+        stage('Deploy canary') {
+            when { branch 'canary' }
+            steps{
+                sh 'echo "********************************CANARY*************************************"'
+                container("kubectl"){
+                step([
+                $class: 'KubernetesEngineBuilder',
+                namespace:'production',
+                projectId: env.PROJECT_ID,
+                clusterName: env.CLUSTER_NAME,
+                location: env.LOCATION,
+                manifestPattern: 'k8/canary',
+                credentialsId: env.CREDENTIALS_ID,
+                verifyDeployments: true])
+                sh("kubectl set image deployment/planetarium-canary planetarium=${PLANETARIUM_PROD}")
+                }
+            }
+        }
+
+        stage('Deploy production') {
+            when { branch 'main' }
             steps{
                 container("kubectl"){
                 step([
                 $class: 'KubernetesEngineBuilder',
+                namespace:'production',
                 projectId: env.PROJECT_ID,
                 clusterName: env.CLUSTER_NAME,
                 location: env.LOCATION,
