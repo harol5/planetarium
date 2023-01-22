@@ -81,7 +81,7 @@ pipeline{
                 projectId: env.PROJECT_ID,
                 clusterName: env.CLUSTER_NAME,
                 location: env.LOCATION,
-                manifestPattern: 'k8/planetarium-app/planetarium.yml',
+                manifestPattern: 'k8/planetarium-app',
                 credentialsId: env.CREDENTIALS_ID,
                 verifyDeployments: true])
                 sh("kubectl set image deployment/planetarium-deployment planetarium=${PLANETARIUM_PROD}")
