@@ -80,6 +80,7 @@ pipeline{
                 container("kubectl"){
                 step([
                 $class: 'KubernetesEngineBuilder',
+                namespace:'production',
                 projectId: env.PROJECT_ID,
                 clusterName: env.CLUSTER_NAME,
                 location: env.LOCATION,
@@ -97,6 +98,7 @@ pipeline{
                 container("kubectl"){
                 step([
                 $class: 'KubernetesEngineBuilder',
+                namespace:'production',
                 projectId: env.PROJECT_ID,
                 clusterName: env.CLUSTER_NAME,
                 location: env.LOCATION,
