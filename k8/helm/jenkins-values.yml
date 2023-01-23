@@ -39,3 +39,7 @@ agent:
           privileged: true
 serviceAccount:
   name: cd-jenkins
+
+networkPolicy:
+  # Enable creation of NetworkPolicy resources.
+  enabled: true
