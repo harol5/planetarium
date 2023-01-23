@@ -32,14 +32,8 @@ agent:
     planetarium: |
       - name: planetarium
         label: jenkins-planetarium
-        serviceAccount: cd-jenkins
+        serviceAccount: jenkins-planetarium
         containers:
         - name: docker
           image: docker:18-dind
           privileged: true
-serviceAccount:
-  name: cd-jenkins
-
-networkPolicy:
-  # Enable creation of NetworkPolicy resources.
-  enabled: true
