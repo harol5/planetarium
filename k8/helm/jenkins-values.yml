@@ -25,15 +25,17 @@ controller:
     apiVersion: networking.k8s.io/v1
     ingressClassName: nginx
     path: "/jenkins"
+  serviceType: ClusterIP
 
 agent:
-  namespace: production
   podTemplates:
     planetarium: |
       - name: planetarium
         label: jenkins-planetarium
-        serviceAccount: jenkins-planetarium
+        serviceAccount: cd-jenkins
         containers:
         - name: docker
           image: docker:18-dind
           privileged: true
+serviceAccount:
+  name: cd-jenkins
