@@ -87,6 +87,7 @@ volumes:
 
 ## Planetarium app
 * kubectl --namespace=production apply -f planetarium-app
+* kubectl --namespace=production apply -f canary
 * after pushing into github, jenkins should build test and deploy the planetarium and ingress service manifest to GKE.
 
 

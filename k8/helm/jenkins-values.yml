@@ -27,6 +27,7 @@ controller:
     path: "/jenkins"
 
 agent:
+#  namespace: production
   podTemplates:
     planetarium: |
       - name: planetarium
