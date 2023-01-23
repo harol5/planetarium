@@ -69,7 +69,7 @@ pipeline{
                       }
                    }
                 }
-                sh 'echo "************Image pushed to dockerrhubbb********************"'
+                sh 'echo "************Image pushed to dockerrhub********************"'
             }
         }
 
