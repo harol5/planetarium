@@ -21,13 +21,25 @@ spec:  #content of this component.
             - containerPort: 8080
           env:
             - name: POSTGRES_USERNAME
-              value: postgres
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-user
             - name: POSTGRES_HOST
-              value: postgres-cluster-ip-service
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-host
             - name: POSTGRES_PORT
-              value: '5432'
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-port
             - name: POSTGRES_DATABASE
-              value: postgres
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-db
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:

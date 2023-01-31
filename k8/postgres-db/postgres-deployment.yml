@@ -26,8 +26,32 @@ spec:
               mountPath: /var/lib/postgresql/data
               subPath: postgres
           env:
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-user
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-host
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-port
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-db
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
                   key: PGPASSWORD
+#          lifecycle:
+#            postStart:
+#              exec:
+#                command: ["psql"]

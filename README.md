@@ -24,14 +24,12 @@
 -----------------------------------------------------------------------------------------------------------------------
 
 # Deploying in GKE
-* create namespace production
 
 ## Postgres
-* kubectl --namespace=production apply -f postgres-db
-* create tables= kubectl exec -it <podName> -c postgres -- psql -d postgres -U postgres
+* kubectl apply -f postgres-db
+* create tables= kubectl exec -it pod/postgres-deployment-7cf95d7989-swcmr -c postgres -- psql -d postgres -U postgres
 
 ## Ingress helm
-      !!!!now that we're implementing namespaces, might cause some issue, we'll see.
 * helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 * helm install my-release ingress-nginx/ingress-nginx
 * kubectl create clusterrolebinding cluster-admin-binding \
@@ -40,7 +38,6 @@
 * kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml
 
 ## Prometheus monitoring
-     !!!!now that we're implementing namespaces, might cause some issue, we'll see.
 * helm install -f prometheus-grafana-values.yml prometheus-monitoring prometheus-community/kube-prometheus-stack
 
 ## Loki stack helm
@@ -86,8 +83,8 @@ volumes:
        6. git add, git commit, git push
 
 ## Planetarium app
-* kubectl --namespace=production apply -f planetarium-app
-* kubectl --namespace=production apply -f canary
+* kubectl apply -f planetarium-app
+* kubectl apply -f canary
 * after pushing into github, jenkins should build test and deploy the planetarium and ingress service manifest to GKE.
 
 
