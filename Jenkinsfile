@@ -76,7 +76,7 @@ pipeline{
         stage('Deploy canary') {
             when { branch 'canary' }
             steps{
-                sh 'echo "********************************CANARYYY*************************************"'
+                sh 'echo "********************************CANARY*************************************"'
                 container("kubectl"){
                 step([
                 $class: 'KubernetesEngineBuilder',
