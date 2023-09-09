@@ -80,7 +80,7 @@ kubectl delete pod <PODNAME> --grace-period=0 --force --namespace <NAMESPACE>
 kubectl patch pv <pv_name> -p '{"metadata": {"finalizers": null}}'
 
 kubectl --namespace default get pods -l "release=planetarium"
-kubectl get secret --namespace default planetarium-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl get secret --namespace default prometheus-monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
 kubectl exec -it pod/postgres-deployment-7f86bb6b4b-47fth -c postgres -- psql -d postgres -U postgres
 

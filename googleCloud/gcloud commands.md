@@ -1,6 +1,8 @@
 1. This gcloud configuration is called [default]. You can create additional configurations if you work with multiple accounts and/or projects.
    Run `gcloud topic configurations` to learn more.
 gcloud auth activate-service-account --key-file service-account.json
+gcloud config set account "email"
+gcloud auth login
 gcloud config set project NAME
 gcloud config set compute/zone NAME
 gcloud container clusters get-credentials ClusterName
