@@ -70,7 +70,7 @@ volumes:
 
 ## Jenkins helm
 * helm install jenkins-planetarium jenkins/jenkins -f jenkins-values.yml
-* kubectl exec --namespace default -it svc/jenkins-planetarium -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+* kubectl exec --namespace default -it svc/jenkins-planetarium -c jenkins -- /bin/cat/run/secrets/additional/chart-admin-password && echo
 * kubectl create clusterrolebinding jenkins-deploy \
   --clusterrole=cluster-admin --serviceaccount=default:jenkins-planetarium
 

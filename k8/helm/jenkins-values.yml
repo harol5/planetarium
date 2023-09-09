@@ -1,20 +1,7 @@
 controller:
-  installPlugins: # in an ideal situation you would specify the version of the plugin you use
-    - kubernetes
-    - workflow-aggregator
-    - git
-    - configuration-as-code
-    - docker-workflow
-    - github-branch-source
-    - docker-plugin
-    - pipeline-stage-view
-    - timestamper
-    - github
-    - google-oauth-plugin:latest
-    - google-source-plugin:latest
-    - google-kubernetes-engine:latest
-    - google-storage-plugin:latest
-
+  image: "hrcode95/myjenkins"
+  tag: "latest"
+  installPlugins: false
   JCasC:
     defaultConfig: true
   jenkinsUriPrefix: "/jenkins"
