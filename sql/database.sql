@@ -35,6 +35,7 @@ select * from "nameTable" where "column" = "value";
 select * from "nameTable" where "column" = "value" and "column" = "value";
 select * from cars where brand = 'mazda' and (model = 'mazda2' or year = '2000-09-08') and "column" = "value";
 
+-- update "table name" set "column name" = "value" where "column name" = "value";
 update cars set price = 25000 where id in (4, 8, 9, 10);
 update cars set price = 150000 where id = 2;
 
@@ -67,3 +68,9 @@ select round(avg(price)) from cars;
 select brand, model, min(price) from cars group by brand, model; --get the minimum price for each brand.
 select brand, min(price) from cars group by brand;
 
+
+
+-- Inner join;
+-- this will join to table using the the common foreign key present in both tables.
+------------------------"table"-----this is telling posgrest to match the IDs.
+select * from users join cars on users.car_id = cars.id;

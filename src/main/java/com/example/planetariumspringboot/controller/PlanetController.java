@@ -26,7 +26,7 @@ public class PlanetController {
 
     /*
      * Use exception handling anytime you have a potential recurring issue
-     * like a non-existant entity being referenced
+     * like a non-existent entity being referenced
      */
 
     @ExceptionHandler(AuthenticationFailed.class)

@@ -10,7 +10,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 
 @RestController // this tells Spring we are using this class as a controller to handle http requests & responses
@@ -23,7 +22,7 @@ public class AuthenticateController {
 
     /*
      * Use exception handling anytime you have a potential recurring issue
-     * like a non-existant entity being referenced
+     * like a non-existent entity being referenced
      */
 
     @ExceptionHandler(PSQLException.class)

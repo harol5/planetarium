@@ -1,6 +1,6 @@
 controller:
   image: "hrcode95/myjenkins"
-  tag: "latest"
+  tag: "v2"
   installPlugins: false
   JCasC:
     defaultConfig: true
