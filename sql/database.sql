@@ -19,14 +19,46 @@ create table "name"(
   date DATE
 );
 
+create table users(
+	-- because the type of id is set to serial, any time we create a record in this table
+	-- the id value will automatically be set for us
+	user_id serial primary key,
+	-- the "primary key" indicator sets a constraint on the column: any column makred
+	-- as a primary key must be unique and it must NOT be null
+	username varchar(20) unique, -- usernames must be unique because of the unique costraint we added
+	password varchar(20)
+);
+
+create table planets(
+	planet_id serial primary key,
+	planet_name varchar(20),
+	owner_id int references users(user_id) on delete cascade -- or on delete set null
+	-- anytime you see "references" you are looking at a "foreign key". All foreign keys
+	-- must point to a primary key on another table
+);
+
+create table moons(
+	moon_id serial primary key,
+	moon_name varchar(20),
+	my_planet_id int references planets(planet_id) on delete cascade -- or on delete set null
+);
+
+
 alter table cars add column price numeric(19, 2);
+alter table cars drop column price;
 
 drop database "db name";
 
 drop table deparments cascade; -- cascade will delete reference tables as well.
 
+truncate table_name; --deletes all entries of a table.
+
 ------------------------------------------------------DML----------------------------------------------------
 insert into "tableName" values(default, 'name', '05-03-2022');
+-- update "table name" set "column name" = "value" where "column name" = "value";
+update cars set price = 25000 where id in (4, 8, 9, 10);
+update cars set price = 150000 where id = 2;
+delete from cars where make = "value";
 
 select * from "nameTable" order by "column" asc;
 select * from "nameTable" order by "column" desc;
@@ -35,11 +67,7 @@ select * from "nameTable" where "column" = "value";
 select * from "nameTable" where "column" = "value" and "column" = "value";
 select * from cars where brand = 'mazda' and (model = 'mazda2' or year = '2000-09-08') and "column" = "value";
 
--- update "table name" set "column name" = "value" where "column name" = "value";
-update cars set price = 25000 where id in (4, 8, 9, 10);
-update cars set price = 150000 where id = 2;
-
-select * from "nameTable" where "column" in ("value", "value" ...); --records with values given.
+select * from "nameTable" where "column" in ("value", "value", ...); --array of values.
 select * from "nameTable" where "column" between date '2000-01-01' and '2011-01-01'; --records between range given.
 select * from cars where brand like 'volk%';
 select * from cars where brand ilike 'V%'; --no case sensitive.

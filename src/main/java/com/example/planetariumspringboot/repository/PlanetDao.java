@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlanetDao extends JpaRepository<Planet,Integer> {
-    Optional<Planet> findByPlanetName(String planetName);
+    Optional<Planet> findByPlanetName(String planetName); //query dsl
     Optional<List<Planet>> findByOwnerId(int ownerId);
 
     @Transactional
