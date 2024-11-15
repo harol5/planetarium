@@ -102,3 +102,9 @@ select brand, min(price) from cars group by brand;
 -- this will join to table using the the common foreign key present in both tables.
 ------------------------"table"-----this is telling posgrest to match the IDs.
 select * from users join cars on users.car_id = cars.id;
+
+-- this query:
+select distinct first_name from customers order by first_name;
+-- returns the same result as this one:
+select first_name from customers group by first_name order by first_name;
+
