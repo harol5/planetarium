@@ -87,6 +87,7 @@ select * from cars offset 3 fetch first 3 row only; --will do the same from abov
 select "column", count(*) from "nameTable" group by "column"; --count how many records have the group column.
 select brand, count(*) from cars group by brand order by count;
 select brand, count(*) from cars group by brand having count(*) > 1 order by count; -- returns counts > 1.
+select order_date, sum(total_amount) as daily_total from orders group by order_date having sum(total_amount) > 1000.00 order by daily_total;
 ----------------------------------------
 select max("column") from "nameTable";
 select min(price) from cars;
@@ -96,12 +97,17 @@ select round(avg(price)) from cars;
 select brand, model, min(price) from cars group by brand, model; --get the minimum price for each brand.
 select brand, min(price) from cars group by brand;
 
-
-
 -- Inner join;
 -- this will join to table using the the common foreign key present in both tables.
 ------------------------"table"-----this is telling posgrest to match the IDs.
 select * from users join cars on users.car_id = cars.id;
+
+select customers.id as customer_id, customers.first_name, orders.id as order_id, orders.order_date, orders.total_amount, order_items.product_id, order_items.quantity
+from customers
+inner join orders on customers.id = orders.customer_id
+inner join order_items on orders.id = order_items.order_id
+order by customer_id;
+
 
 -- this query:
 select distinct first_name from customers order by first_name;

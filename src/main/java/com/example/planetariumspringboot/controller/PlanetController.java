@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
 
 import java.util.List;
 
@@ -36,8 +37,9 @@ public class PlanetController {
     }
 
     @ExceptionHandler(EntityNotFound.class)
-    public ResponseEntity<String> entityNotFound(EntityNotFound e){
-        planetLogger.error(e.getLocalizedMessage(),e);
+    public ResponseEntity<String> entityNotFound(EntityNotFound e, HandlerMethod method){
+        String methodName = method.getMethod().getName();
+        planetLogger.error(e.getLocalizedMessage() + " method name: " + methodName ,e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
